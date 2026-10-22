@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/home/Hero.astro';
+import ProductCard from '../components/ProductCard.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+import Statement from '../components/home/Statement.astro';
+import BespokePanel from '../components/home/BespokePanel.astro';
+import Newsletter from '../components/home/Newsletter.astro';
+import { PRODUCTS } from '../data/products';
+---
+
+<Base>
+  <Hero />
+
+  <section class="section featured" aria-labelledby="featured-title">
+    <div class="container">
+      <h2 id="featured-title" class="featured__title">Featured products</h2>
+      <div class="featured__grid">
+        {PRODUCTS.map((product) => <ProductCard product={product} />)}
+      </div>
+    </div>
+  </section>
+
+  <Testimonials />
+  <Statement />
+  <BespokePanel />
+  <Newsletter />
+</Base>
+
+<style>
+  .featured__title {
+    text-align: center;
+    font-size: var(--fs-xl);
+    margin-bottom: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  }
+  .featured__grid {
+    display: grid;
+    gap: 2.5rem 0.5rem;
+  }
+  @media (min-width: 700px) {
+    .featured__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,53 @@
+---
+import { DEFAULT_TIER, TIERS, type Tier } from '../data/products';
+
+// Plain form POST, no JS. /api/currency overwrites the sms_tier cookie and
+// redirects back. The active state is rewritten per request at the edge (phase 2);
+// the static HTML ships with the default tier marked.
+const tiers = Object.entries(TIERS) as [Tier, (typeof TIERS)[Tier]][];
+---
+
+<form class="currency" method="post" action="/api/currency" aria-label="Currency">
+  {
+    tiers.map(([tier, cfg]) => (
+      <button
+        type="submit"
+        name="tier"
+        value={tier}
+        data-tier={tier}
+        aria-pressed={tier === DEFAULT_TIER ? 'true' : 'false'}
+      >
+        {cfg.label}
+      </button>
+    ))
+  }
+</form>
+
+<style>
+  .currency {
+    display: flex;
+    border: 1px solid #3a3a3a;
+    border-radius: var(--radius-pill);
+    padding: 3px;
+  }
+  button {
+    min-width: 44px;
+    min-height: 32px;
+    padding: 0 0.6rem;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: #b8b8b8;
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+  }
+  button:hover {
+    color: var(--white);
+  }
+  button[aria-pressed='true'] {
+    background: var(--white);
+    color: var(--black);
+  }
+</style>

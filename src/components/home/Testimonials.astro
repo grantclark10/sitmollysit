@@ -1,0 +1,74 @@
+---
+const quotes = [
+  {
+    text: 'The whole process was effortless, and the result feels seriously premium. It’s the first thing people comment on when they walk into our home.',
+    by: 'Janie C.',
+  },
+  {
+    text: 'Beautiful quality, fast turnaround, and flawless detail. If you love your pet, you need one of these on your wall.',
+    by: 'Rob H.',
+  },
+  {
+    text: 'I didn’t expect a photo to feel this personal. The portrait captures our dog’s personality perfectly, equal parts chaos and charm!',
+    by: 'Amanda G.',
+  },
+];
+---
+
+<section class="testimonials" aria-label="What customers say">
+  <div class="container grid">
+    {
+      quotes.map((q) => (
+        <figure>
+          <p class="stars" role="img" aria-label="5 out of 5 stars">
+            ★★★★★
+          </p>
+          <blockquote>
+            <p>“{q.text}”</p>
+          </blockquote>
+          <figcaption>{q.by}</figcaption>
+        </figure>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .testimonials {
+    background: var(--blush);
+    padding-block: clamp(3rem, 2rem + 3vw, 4.5rem);
+  }
+  .grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+  figure {
+    margin: 0;
+    text-align: center;
+    max-width: 26rem;
+    margin-inline: auto;
+  }
+  .stars {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.1em;
+    color: var(--black);
+  }
+  blockquote {
+    margin: 0.5rem 0 0;
+    font-size: var(--fs-md);
+    line-height: 1.35;
+    color: var(--black);
+  }
+  figcaption {
+    margin-top: 0.75rem;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  @media (min-width: 800px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+</style>

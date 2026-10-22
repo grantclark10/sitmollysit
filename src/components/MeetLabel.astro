@@ -1,0 +1,43 @@
+---
+interface Props {
+  name: string;
+  /** Light text for dark images (default), dark text for light ones. */
+  tone?: 'light' | 'dark';
+}
+const { name, tone = 'light' } = Astro.props;
+---
+
+<span class:list={['meet', `meet--${tone}`]} aria-hidden="true">
+  <span class="meet__kicker">Meet</span>
+  <span class="meet__name">{name}</span>
+</span>
+
+<style>
+  .meet {
+    position: absolute;
+    left: clamp(0.75rem, 3%, 1.5rem);
+    bottom: clamp(0.75rem, 3%, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    text-transform: uppercase;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .meet--light {
+    color: var(--white);
+    text-shadow: 0 1px 6px rgb(0 0 0 / 0.35);
+  }
+  .meet--dark {
+    color: var(--black);
+  }
+  .meet__kicker {
+    font-size: 0.5625rem;
+    letter-spacing: 0.14em;
+  }
+  .meet__name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-caps);
+  }
+</style>

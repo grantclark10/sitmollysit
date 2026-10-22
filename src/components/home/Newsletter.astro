@@ -1,0 +1,70 @@
+<section class="newsletter" aria-labelledby="newsletter-title">
+  <div class="container newsletter__inner">
+    <h2 id="newsletter-title">Join our pet family</h2>
+    <form method="post" action="/api/newsletter" class="newsletter__form">
+      <label class="visually-hidden" for="newsletter-email">Email address</label>
+      <input
+        class="input"
+        id="newsletter-email"
+        name="email"
+        type="email"
+        inputmode="email"
+        autocomplete="email"
+        placeholder="Email address"
+        maxlength="254"
+        required
+      />
+      <button class="newsletter__submit" type="submit" aria-label="Subscribe">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path d="M4 12h15m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
+          ></path>
+        </svg>
+      </button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .newsletter {
+    background: var(--blush);
+    padding-block: clamp(3rem, 2rem + 3vw, 5rem);
+  }
+  .newsletter__inner {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  h2 {
+    font-size: var(--fs-xl);
+  }
+  .newsletter__form {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 30rem;
+  }
+  .newsletter__submit {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--mint);
+    color: var(--black);
+    cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+  .newsletter__submit:hover {
+    background: #8fd08f;
+  }
+  @media (min-width: 800px) {
+    .newsletter__inner {
+      grid-template-columns: 1fr auto;
+    }
+    .newsletter__form {
+      width: 30rem;
+    }
+  }
+</style>

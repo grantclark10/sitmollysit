@@ -1,0 +1,32 @@
+{
+  "name": "sit-molly-sit",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro build && wrangler pages dev",
+    "dev:ui": "astro dev",
+    "build": "astro build",
+    "preview": "wrangler pages dev",
+    "check": "astro check && tsc --noEmit",
+    "deploy": "astro build && wrangler pages deploy"
+  },
+  "dependencies": {
+    "astro": "^7.4.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@cloudflare/workers-types": "^5.20261022.1",
+    "sharp": "^0.35.5",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.151.3"
+  },
+  "allowScripts": {
+    "workerd@1.20261019.1": true,
+    "esbuild@0.28.2": true,
+    "sharp@0.35.5": true
+  }
+}

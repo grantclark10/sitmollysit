@@ -1,0 +1,74 @@
+---
+import { Picture } from 'astro:assets';
+import MeetLabel from './MeetLabel.astro';
+import { DEFAULT_TIER, type Product } from '../data/products';
+import { priceFor } from '../lib/price';
+
+interface Props {
+  product: Product;
+  /** Pass true only for cards that sit in the first viewport. */
+  eager?: boolean;
+}
+
+const { product, eager = false } = Astro.props;
+const { cover } = product;
+---
+
+<a class="card" href={`/products/${product.slug}`}>
+  <div class="card__media">
+    <Picture
+      src={cover.src}
+      alt={cover.alt}
+      formats={['avif', 'webp']}
+      widths={[360, 540, 720, 960]}
+      sizes="(min-width: 700px) 50vw, 100vw"
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+    <MeetLabel name={cover.petName} />
+  </div>
+  <h3 class="card__title">{product.title}</h3>
+  <p class="card__price">
+    From <span data-price={`${product.slug}:1`}>{priceFor(product, DEFAULT_TIER, 1)}</span>
+  </p>
+</a>
+
+<style>
+  .card {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    text-align: center;
+  }
+  .card__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--black);
+  }
+  .card__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 400ms ease;
+  }
+  .card:hover .card__media :global(img) {
+    transform: scale(1.02);
+  }
+  .card__title {
+    margin-top: 0.875rem;
+    font-size: var(--fs-md);
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--ink);
+  }
+  .card:hover .card__title {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .card__price {
+    margin-top: 0.25rem;
+    font-size: var(--fs-sm);
+    color: var(--ink-muted);
+  }
+</style>

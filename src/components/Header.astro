@@ -1,0 +1,168 @@
+---
+import Logo from '../assets/logo.svg';
+import CurrencySwitcher from './CurrencySwitcher.astro';
+
+const nav = [
+  { href: '/', label: 'Home' },
+  { href: '/products', label: 'Products' },
+  { href: '/our-story', label: 'Our Story' },
+  { href: '/contact', label: 'Contact Us' },
+];
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
+---
+
+<header class="header">
+  <div class="header__inner">
+    <a class="header__logo" href="/" aria-label="Sit Molly Sit! home">
+      <Logo aria-hidden="true" focusable="false" />
+    </a>
+
+    <nav class="header__nav" aria-label="Main">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="header__tools">
+      <CurrencySwitcher />
+
+      <details class="menu">
+        <summary aria-label="Menu">
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+            <path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.5" fill="none"></path>
+          </svg>
+        </summary>
+        <nav class="menu__panel" aria-label="Mobile">
+          <ul>
+            {
+              nav.map((item) => (
+                <li>
+                  <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .header__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    min-height: var(--header-h);
+    padding-inline: var(--gutter);
+  }
+
+  .header__logo {
+    display: block;
+    width: clamp(132px, 30vw, 172px);
+    color: var(--white);
+  }
+  .header__logo :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .header__nav a,
+  .menu__panel a {
+    font-size: var(--fs-sm);
+  }
+  .header__nav a:hover,
+  .header__nav a[aria-current='page'] {
+    text-decoration: underline;
+  }
+
+  .header__tools {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  /* Mobile menu: <details> so it works with zero JS. */
+  .menu summary {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .menu__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: var(--black);
+    border-top: 1px solid #222;
+    padding: 0.5rem var(--gutter) 1.25rem;
+  }
+  .menu__panel a {
+    display: block;
+    padding: 0.75rem 0;
+    font-size: var(--fs-md);
+  }
+  .menu__panel a[aria-current='page'] {
+    text-decoration: underline;
+  }
+
+  @media (min-width: 900px) {
+    .header__inner {
+      grid-template-columns: 1fr auto 1fr;
+    }
+    .header__nav {
+      display: block;
+    }
+    .header__nav ul {
+      display: flex;
+      gap: 2rem;
+    }
+    .menu {
+      display: none;
+    }
+  }
+</style>
