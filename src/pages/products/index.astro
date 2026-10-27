@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { PRODUCTS } from '../../data/products';
+---
+
+<Base title="Products" description="Studio and animated pet portraits, finished by hand and delivered as a high-resolution digital file.">
+  <section class="section">
+    <div class="container">
+      <h1>Products</h1>
+      <p class="count">{PRODUCTS.length} items</p>
+      <div class="grid">
+        {
+          PRODUCTS.map((product, i) => (
+            <ProductCard product={product} eager={i < 3} sizes="(min-width: 1000px) 33vw, (min-width: 600px) 50vw, 100vw" />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .count {
+    margin: clamp(1.5rem, 1rem + 2vw, 3rem) 0 1.25rem;
+    font-size: var(--fs-sm);
+    color: var(--ink-muted);
+    text-align: right;
+  }
+  .grid {
+    display: grid;
+    gap: 2.5rem 1.25rem;
+  }
+  .grid :global(.card) {
+    text-align: left;
+  }
+  @media (min-width: 600px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1000px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

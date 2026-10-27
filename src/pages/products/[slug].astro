@@ -1,0 +1,318 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import MeetLabel from '../../components/MeetLabel.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { BACKGROUNDS, DEFAULT_TIER, PET_COUNTS, PRODUCTS, type Product } from '../../data/products';
+import { priceFor } from '../../lib/price';
+
+export function getStaticPaths() {
+  return PRODUCTS.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const others = PRODUCTS.filter((p) => p.slug !== product.slug);
+---
+
+<Base title={product.title} description={product.summary}>
+  <section class="pdp">
+    <div class="pdp__gallery">
+      {
+        product.gallery.map((image, i) => (
+          <figure class="pdp__image">
+            <Picture
+              src={image.src}
+              alt={image.alt}
+              formats={['avif', 'webp']}
+              widths={[360, 540, 720, 960]}
+              sizes="(min-width: 900px) 30vw, 50vw"
+              loading={i < 2 ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 ? 'high' : undefined}
+              decoding="async"
+            />
+            <MeetLabel name={image.petName} tone={image.labelTone} />
+          </figure>
+        ))
+      }
+    </div>
+
+    <div class="pdp__info">
+      <div class="pdp__panel">
+        <h1>{product.title}</h1>
+        <p class="pdp__price">
+          From <span data-price={`${product.slug}:1`}>{priceFor(product, DEFAULT_TIER, 1)}</span>
+        </p>
+
+        <form class="order" method="post" action="/api/checkout">
+          <input type="hidden" name="product" value={product.slug} />
+
+          <fieldset>
+            <legend>Number of pets</legend>
+            <div class="options">
+              {
+                PET_COUNTS.map((count) => (
+                  <label class="option">
+                    <input type="radio" name="petCount" value={count} checked={count === 1} required />
+                    <span>
+                      {count} {count === 1 ? 'pet' : 'pets'}
+                      <span class="option__price" data-price={`${product.slug}:${count}`}>
+                        {priceFor(product, DEFAULT_TIER, count)}
+                      </span>
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          {
+            product.requiresBackground && (
+              <fieldset>
+                <legend>Background</legend>
+                <div class="options">
+                  {BACKGROUNDS.map((bg) => (
+                    <label class="option">
+                      <input type="radio" name="background" value={bg} checked={bg === 'black'} required />
+                      <span>
+                        <span class:list={['swatch', `swatch--${bg}`]} aria-hidden="true" />
+                        {bg === 'white' ? 'Crisp white' : 'Deep black'}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            )
+          }
+
+          <button class="btn order__submit" type="submit">Order now</button>
+          <p class="order__note">You’ll upload your photos after checkout.</p>
+        </form>
+
+        <div class="details stack" style="--stack: 1rem">
+          {product.intro.map((para) => <p>{para}</p>)}
+
+          <h2>How it works</h2>
+          <ol>
+            {product.steps.map((step) => <li>{step}</li>)}
+          </ol>
+          <p>You’ll receive a <strong>high-resolution digital file</strong> to download, then print or frame however you like.</p>
+
+          <h2>What you’re getting</h2>
+          <ul>
+            {product.included.map((item) => <li><strong>{item}</strong></li>)}
+          </ul>
+          <p>
+            You’ll get a preview first, and we’ll tweak it until it feels perfect: lighting, crop, background and overall
+            feeling. And if you’re not happy with the final result, you’ll get a <strong>full refund</strong>.
+          </p>
+          <p>
+            <strong>Bonus:</strong> we’ll also include a free phone wallpaper version, so your pet can live rent-free on your
+            lock screen.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {
+    others.length > 0 && (
+      <section class="section related" aria-labelledby="related-title">
+        <div class="container">
+          <h2 id="related-title">You may also like</h2>
+          <div class="related__grid">
+            {others.map((p) => (
+              <ProductCard product={p} sizes="(min-width: 700px) 25vw, 50vw" />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .pdp {
+    display: grid;
+    gap: 2rem;
+    max-width: var(--max);
+    margin-inline: auto;
+  }
+
+  /* Phones: a swipeable strip, so price and Order sit near the top. */
+  .pdp__gallery {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 72%;
+    gap: 4px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .pdp__gallery::-webkit-scrollbar {
+    display: none;
+  }
+  .pdp__image {
+    scroll-snap-align: start;
+  }
+  .pdp__image {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: var(--black);
+  }
+  .pdp__image :global(picture),
+  .pdp__image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pdp__info {
+    padding-inline: var(--gutter);
+  }
+  h1 {
+    font-size: var(--fs-xl);
+  }
+  .pdp__price {
+    margin-top: 0.75rem;
+    font-size: var(--fs-sm);
+  }
+
+  .order {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 1.25rem;
+  }
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  legend {
+    margin-bottom: 0.5rem;
+    font-size: var(--fs-sm);
+    font-weight: 500;
+  }
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .option {
+    position: relative;
+    cursor: pointer;
+  }
+  .option input {
+    position: absolute;
+    opacity: 0;
+  }
+  .option > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.5rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-sm);
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+  .option:hover > span {
+    border-color: var(--ink-muted);
+  }
+  .option input:checked + span {
+    border-color: var(--forest);
+    background: var(--forest);
+    color: var(--white);
+  }
+  .option input:focus-visible + span {
+    outline: 2px solid var(--forest);
+    outline-offset: 3px;
+  }
+  .option__price {
+    opacity: 0.75;
+  }
+  .swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid #999;
+  }
+  .swatch--white {
+    background: var(--white);
+  }
+  .swatch--black {
+    background: var(--black);
+  }
+
+  .order__submit {
+    width: 100%;
+  }
+  .order__note {
+    margin-top: -0.5rem;
+    font-size: var(--fs-xs);
+    color: var(--ink-muted);
+    text-align: center;
+  }
+
+  .details {
+    margin-top: 2rem;
+    font-size: var(--fs-sm);
+  }
+  .details h2 {
+    padding-top: 0.75rem;
+    font-size: var(--fs-lg);
+  }
+  .details ol,
+  .details ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+  .details li + li {
+    margin-top: 0.25rem;
+  }
+
+  .related h2 {
+    font-size: var(--fs-lg);
+    margin-bottom: 1.25rem;
+  }
+  .related__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 0.75rem;
+  }
+  .related__grid :global(.card) {
+    text-align: left;
+  }
+
+  @media (min-width: 900px) {
+    .pdp__gallery {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      overflow: visible;
+    }
+    .pdp {
+      grid-template-columns: 7fr 5fr;
+      gap: 3rem;
+      padding-inline: var(--gutter);
+    }
+    .pdp__info {
+      padding-inline: 0;
+    }
+    .pdp__panel {
+      padding-top: 1.5rem;
+    }
+  }
+  @media (min-width: 700px) {
+    .related__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

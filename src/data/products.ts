@@ -67,6 +67,8 @@ export interface GalleryImage {
   src: ImageMetadata;
   petName: string;
   alt: string;
+  /** MeetLabel tone: 'dark' for images on a light background. */
+  labelTone?: 'light' | 'dark';
 }
 
 export interface Product {
@@ -75,6 +77,10 @@ export interface Product {
   shortTitle: string;
   summary: string;
   requiresBackground: boolean;
+  /** Product page copy, one paragraph per entry. */
+  intro: string[];
+  steps: string[];
+  included: string[];
   cover: GalleryImage;
   gallery: GalleryImage[];
   priceTiers: Record<Tier, Record<PetCount, PriceTier>>;
@@ -95,7 +101,7 @@ const studioGallery: GalleryImage[] = [
   { src: lily, petName: 'Lily', alt: 'Studio portrait of Lily, a cavalier spaniel, on a deep black background' },
   { src: frankie, petName: 'Frankie', alt: 'Studio portrait of Frankie, a black and white dog, lying with a teddy bear' },
   { src: benjy, petName: 'Benjy', alt: 'Studio portrait of Benjy, a brown and white dog, sitting on black' },
-  { src: chase, petName: 'Chase', alt: 'Studio portrait of Chase, a white bull terrier, on a crisp white background' },
+  { src: chase, petName: 'Chase', alt: 'Studio portrait of Chase, a white bull terrier, on a crisp white background', labelTone: 'dark' },
   { src: noodle, petName: 'Noodle', alt: 'Studio portrait of Noodle, a tabby and white cat, on black' },
   { src: murphy, petName: 'Murphy', alt: 'Studio portrait of Murphy, a bulldog, lying with a tennis ball' },
   { src: faf, petName: 'Faf', alt: 'Studio portrait of Faf, a boxer, sitting on a deep black background' },
@@ -116,6 +122,17 @@ export const PRODUCTS: readonly Product[] = [
     summary:
       'Your pet as a professional studio photograph on a crisp white or deep black background — without the studio session.',
     requiresBackground: true,
+    intro: [
+      'Receive a studio-style portrait of your pet, without the studio session.',
+      'We take your pet’s photos and turn them into a clean, high-resolution portrait on a crisp white or deep black background. Minimal, timeless, and ridiculously frameable. The kind of look you’d expect from a proper studio shoot, minus the booking, travel and “please sit still” negotiations.',
+    ],
+    steps: [
+      'Send 5 photos of your pet (phone pics are perfect).',
+      'We choose the strongest shots.',
+      'We refine the portrait for a polished studio finish.',
+      'We place them on a clean white or black background.',
+    ],
+    included: ['Edited and finished by a real person', 'Artwork proof in 1–2 days', 'Unlimited edits, free'],
     cover: studioGallery[0]!,
     gallery: studioGallery,
     priceTiers: tiersFor('studio-portrait'),
@@ -126,6 +143,17 @@ export const PRODUCTS: readonly Product[] = [
     shortTitle: 'Animated',
     summary: 'Your pet reimagined as a big-screen, animated-feature character in a warm storybook 3D style.',
     requiresBackground: false,
+    intro: [
+      'Your pet as the star of their own animated feature.',
+      'We turn your pet’s photos into a warm, storybook 3D character portrait that keeps every detail that makes them them: the eyes, the fluff, the attitude. All of it.',
+    ],
+    steps: [
+      'Send 5 photos of your pet (phone pics are perfect).',
+      'We choose the shots that show their personality best.',
+      'We build and refine their animated-feature character.',
+      'We finish the portrait in a clean, frameable scene.',
+    ],
+    included: ['Edited and finished by a real person', 'Artwork proof in 1–2 days', 'Unlimited edits, free'],
     cover: animatedGallery[0]!,
     gallery: animatedGallery,
     priceTiers: tiersFor('animated-portrait'),

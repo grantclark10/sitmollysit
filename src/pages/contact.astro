@@ -1,0 +1,134 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import lily from '../assets/pets/lily.jpg';
+import frankie from '../assets/pets/frankie.jpg';
+import benjy from '../assets/pets/benjy.jpg';
+import chase from '../assets/pets/chase.jpg';
+import noodle from '../assets/pets/noodle.jpg';
+import murphy from '../assets/pets/murphy.jpg';
+import faf from '../assets/pets/faf.jpg';
+import harvey from '../assets/pets/harvey.jpg';
+
+// Stand-in for the old site's polaroid collage until a real one is exported.
+const mosaic = [lily, frankie, benjy, chase, noodle, murphy, faf, harvey];
+---
+
+<Base title="Contact us" description="Questions, bespoke requests, or just want to show off your pet? Get in touch.">
+  <section class="section">
+    <div class="container contact">
+      <h1>Contact us</h1>
+      <p class="contact__lede">
+        Need a hand, have a question, or want to show off your pet (we approve)? Drop us a note at{' '}
+        <a href="mailto:hello@sitmollysit.com"><strong>hello@sitmollysit.com</strong></a>
+      </p>
+
+      <div class="mosaic" aria-hidden="true">
+        {
+          mosaic.map((src) => (
+            <Picture src={src} alt="" formats={['avif', 'webp']} widths={[120, 240]} sizes="120px" loading="lazy" decoding="async" />
+          ))
+        }
+      </div>
+
+      <form class="form" method="post" action="/api/contact">
+        <div class="form__row">
+          <label class="field">
+            <span class="visually-hidden">Name</span>
+            <input class="box" name="name" type="text" autocomplete="name" placeholder="Name" maxlength="120" />
+          </label>
+          <label class="field">
+            <span class="visually-hidden">Email (required)</span>
+            <input
+              class="box"
+              name="email"
+              type="email"
+              inputmode="email"
+              autocomplete="email"
+              placeholder="Email *"
+              maxlength="254"
+              required
+            />
+          </label>
+        </div>
+        <label class="field">
+          <span class="visually-hidden">Phone</span>
+          <input class="box" name="phone" type="tel" autocomplete="tel" placeholder="Phone" maxlength="40" />
+        </label>
+        <label class="field">
+          <span class="visually-hidden">Message (required)</span>
+          <textarea class="box" name="message" rows="8" placeholder="Comment *" maxlength="5000" required></textarea>
+        </label>
+        <div>
+          <button class="btn" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact {
+    max-width: 58rem;
+    text-align: center;
+  }
+  h1 {
+    font-size: var(--fs-2xl);
+  }
+  .contact__lede {
+    max-width: 26rem;
+    margin: 1.5rem auto 1.75rem;
+  }
+  .contact__lede a {
+    text-decoration: none;
+  }
+
+  .mosaic {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    max-width: 26rem;
+    margin-inline: auto;
+  }
+  .mosaic :global(img) {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  .form {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    text-align: left;
+  }
+  .form__row {
+    display: grid;
+    gap: 1rem;
+  }
+  .field {
+    display: block;
+  }
+  .box {
+    width: 100%;
+    min-height: 56px;
+    padding: 0.9rem 1.25rem;
+    border: 1px solid var(--forest);
+    border-radius: var(--radius-input);
+    background: var(--white);
+  }
+  .box::placeholder {
+    color: var(--ink);
+  }
+  .box:focus-visible {
+    outline-offset: 0;
+  }
+  textarea.box {
+    resize: vertical;
+  }
+  @media (min-width: 640px) {
+    .form__row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

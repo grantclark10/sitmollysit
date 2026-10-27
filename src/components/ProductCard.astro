@@ -8,9 +8,10 @@ interface Props {
   product: Product;
   /** Pass true only for cards that sit in the first viewport. */
   eager?: boolean;
+  sizes?: string;
 }
 
-const { product, eager = false } = Astro.props;
+const { product, eager = false, sizes = '(min-width: 700px) 50vw, 100vw' } = Astro.props;
 const { cover } = product;
 ---
 
@@ -21,11 +22,11 @@ const { cover } = product;
       alt={cover.alt}
       formats={['avif', 'webp']}
       widths={[360, 540, 720, 960]}
-      sizes="(min-width: 700px) 50vw, 100vw"
+      sizes={sizes}
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"
     />
-    <MeetLabel name={cover.petName} />
+    <MeetLabel name={cover.petName} tone={cover.labelTone} />
   </div>
   <h3 class="card__title">{product.title}</h3>
   <p class="card__price">
