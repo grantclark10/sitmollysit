@@ -18,8 +18,12 @@ npm run check     # astro check + tsc --noEmit
 
 - `src/assets/logo.svg`: generated placeholder wordmark (DM Sans 600, 0.18em tracking, macron over the O). Swap in the master SVG.
 - `src/assets/pets/*.jpg`: cropped from screenshots of the old Shopify site. Replace them with the original exports at the same filenames (the hero is `harvey.jpg`, the bespoke panel is `murphy.jpg`).
-- Animated Portrait images: these are studio photos for now. Real animated-feature examples are needed (see `TODO` in `src/data/products.ts`).
-- Prices and Lemon Squeezy variant IDs: the `TODO_` constants at the top of `src/data/products.ts`.
+- `src/pages/our-story.astro` uses `chase.jpg` (white background). Swap in the grey-background photo of Chase from the old Our Story page.
+- Prices and Lemon Squeezy variant IDs: `PRICES` and `VARIANT_IDS` in `src/data/pricing.ts`.
+
+## Currencies
+
+Prices are set by hand per currency (USD, GBP, EUR) in `src/data/pricing.ts`, never FX-converted. Pages are built with USD prices; `functions/_middleware.ts` rewrites every `[data-price]` element per request. The currency comes from the `sms_tier` cookie (set by the header switcher via `/api/currency`), otherwise from the visitor's country: GB and Crown Dependencies get GBP, euro countries get EUR, everyone else USD.
 
 ## Fonts
 

@@ -15,7 +15,7 @@ import { PRODUCTS } from '../data/products';
   <section class="section featured" aria-labelledby="featured-title">
     <div class="container">
       <h2 id="featured-title" class="featured__title">Featured products</h2>
-      <div class="featured__grid">
+      <div class:list={['featured__grid', { 'featured__grid--single': PRODUCTS.length === 1 }]}>
         {PRODUCTS.map((product) => <ProductCard product={product} />)}
       </div>
     </div>
@@ -40,6 +40,10 @@ import { PRODUCTS } from '../data/products';
   @media (min-width: 700px) {
     .featured__grid {
       grid-template-columns: repeat(2, 1fr);
+    }
+    .featured__grid--single {
+      grid-template-columns: minmax(0, 34rem);
+      justify-content: center;
     }
   }
 </style>

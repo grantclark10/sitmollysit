@@ -1,9 +1,9 @@
 ---
-import { DEFAULT_TIER, TIERS, type Tier } from '../data/products';
+import { DEFAULT_TIER, TIERS, type Tier } from '../data/pricing';
 
 // Plain form POST, no JS. /api/currency overwrites the sms_tier cookie and
-// redirects back. The active state is rewritten per request at the edge (phase 2);
-// the static HTML ships with the default tier marked.
+// redirects back. functions/_middleware.ts rewrites the active state (and every
+// [data-price]) per request; the static HTML ships with the default tier marked.
 const tiers = Object.entries(TIERS) as [Tier, (typeof TIERS)[Tier]][];
 ---
 
