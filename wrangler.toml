@@ -10,16 +10,19 @@ SITE_URL = "https://sitmollysit.com"
 ADMIN_EMAIL = "hello@sitmollysit.com"
 EMAIL_FROM = "Sit Molly Sit! <hello@sitmollysit.com>"
 
-[[d1_databases]]
-binding = "DB"
-database_name = "sit-molly-sit"
-database_id = "TODO-replace-with-output-of-wrangler-d1-create"
-migrations_dir = "migrations"
+# Storage bindings are disabled until the phase that uses them: a binding to a
+# database or namespace that doesn't exist (the TODO ids below) fails every
+# deploy. Create each resource, fill in its id, then uncomment.
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "sit-molly-sit"
+# database_id = "TODO-replace-with-output-of-wrangler-d1-create"
+# migrations_dir = "migrations"
 
-[[r2_buckets]]
-binding = "BUCKET"
-bucket_name = "sit-molly-sit"
+# [[r2_buckets]]
+# binding = "BUCKET"
+# bucket_name = "sit-molly-sit"
 
-[[kv_namespaces]]
-binding = "RATE_LIMIT"
-id = "TODO-replace-with-output-of-wrangler-kv-namespace-create"
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT"
+# id = "TODO-replace-with-output-of-wrangler-kv-namespace-create"
