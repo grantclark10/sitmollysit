@@ -10,6 +10,8 @@ import wcLily from '../assets/watercolor/lily.webp';
 import wcTilly from '../assets/watercolor/tilly.webp';
 import wcFafBlack from '../assets/watercolor/faf-black.webp';
 import wcFafWhite from '../assets/watercolor/faf-white.webp';
+import wallpaperStudio from '../assets/wallpaper/studio-benjy.webp';
+import wallpaperWatercolor from '../assets/wallpaper/watercolor-lily.webp';
 
 import { PRICES, VARIANT_IDS, TIERS, type PetCount, type ProductSlug, type Tier } from './pricing';
 
@@ -58,8 +60,13 @@ export interface Product {
     intro: string[];
     howItWorks: { lead: string; steps?: string[]; outro: string };
     included: string[];
+    /** Shown before the phone wallpaper mockup (ends with the Bonus line). */
     closing: string[];
+    /** Shown after the phone wallpaper mockup. */
+    afterWallpaper: string[];
   };
+  /** Phone lock-screen mockup illustrating the free wallpaper bonus. */
+  wallpaper: GalleryImage;
   cover: GalleryImage;
   gallery: GalleryImage[];
   priceTiers: Record<Tier, Record<PetCount, PriceTier>>;
@@ -123,8 +130,14 @@ export const PRODUCTS: readonly Product[] = [
       closing: [
         'You’ll get a preview first, and we’ll tweak it until it feels perfect: we’ll look at the lighting, crop, background and overall feeling. And if you’re not happy with the final result, you’ll get a <strong>full refund</strong>.',
         '<strong>Bonus:</strong> We’ll also include a free phone wallpaper version, so your pet can live rent-free on your lock screen.',
-        'Let’s get started!',
       ],
+      afterWallpaper: ['Let’s get started!'],
+    },
+    wallpaper: {
+      src: wallpaperStudio,
+      petName: 'Benjy',
+      alt: 'Phone lock screen showing a studio portrait of Benjy as the wallpaper',
+      labelInImage: true,
     },
     cover: studioGallery[0]!,
     gallery: studioGallery,
@@ -154,9 +167,17 @@ export const PRODUCTS: readonly Product[] = [
       closing: [
         'We’ll send a preview before anything is final. Then we’ll tweak it until it feels exactly right. The expression, color, emotion, all of it. No limits. No weird revision rules.',
         '<strong>Bonus:</strong> We’ll also include a free phone wallpaper version, so your pet can live rent-free on your lock screen.',
+      ],
+      afterWallpaper: [
         'And if you’re not happy with the final portrait? <strong>You get a full refund.</strong> Simple.',
         'Let’s get started!',
       ],
+    },
+    wallpaper: {
+      src: wallpaperWatercolor,
+      petName: 'Lily',
+      alt: 'Phone lock screen showing a watercolor portrait of Lily as the wallpaper',
+      labelInImage: true,
     },
     cover: watercolorGallery[0]!,
     gallery: watercolorGallery,
