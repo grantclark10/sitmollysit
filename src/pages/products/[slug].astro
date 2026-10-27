@@ -15,6 +15,7 @@ interface Props {
 }
 
 const { product } = Astro.props;
+const { copy } = product;
 const others = PRODUCTS.filter((p) => p.slug !== product.slug);
 ---
 
@@ -93,26 +94,24 @@ const others = PRODUCTS.filter((p) => p.slug !== product.slug);
         </form>
 
         <div class="details stack" style="--stack: 1rem">
-          {product.intro.map((para) => <p>{para}</p>)}
+          {copy.intro.map((para) => <p set:html={para} />)}
 
           <h2>How it works</h2>
-          <ol>
-            {product.steps.map((step) => <li>{step}</li>)}
-          </ol>
-          <p>You’ll receive a <strong>high-resolution digital file</strong> to download, then print or frame however you like.</p>
+          <p set:html={copy.howItWorks.lead} />
+          {
+            copy.howItWorks.steps && (
+              <ul>
+                {copy.howItWorks.steps.map((step) => <li set:html={step} />)}
+              </ul>
+            )
+          }
+          <p set:html={copy.howItWorks.outro} />
 
           <h2>What you’re getting</h2>
           <ul>
-            {product.included.map((item) => <li><strong>{item}</strong></li>)}
+            {copy.included.map((item) => <li set:html={item} />)}
           </ul>
-          <p>
-            You’ll get a preview first, and we’ll tweak it until it feels perfect: lighting, crop, background and overall
-            feeling. And if you’re not happy with the final result, you’ll get a <strong>full refund</strong>.
-          </p>
-          <p>
-            <strong>Bonus:</strong> we’ll also include a free phone wallpaper version, so your pet can live rent-free on your
-            lock screen.
-          </p>
+          {copy.closing.map((para) => <p set:html={para} />)}
         </div>
       </div>
     </div>

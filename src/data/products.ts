@@ -50,10 +50,16 @@ export interface Product {
   shortTitle: string;
   summary: string;
   requiresBackground: boolean;
-  /** Product page copy, one paragraph per entry. */
-  intro: string[];
-  steps: string[];
-  included: string[];
+  /**
+   * Product page copy. Entries are trusted HTML authored here (rendered with
+   * set:html) so they can carry <strong>/<em>; one paragraph per entry.
+   */
+  copy: {
+    intro: string[];
+    howItWorks: { lead: string; steps?: string[]; outro: string };
+    included: string[];
+    closing: string[];
+  };
   cover: GalleryImage;
   gallery: GalleryImage[];
   priceTiers: Record<Tier, Record<PetCount, PriceTier>>;
@@ -82,9 +88,9 @@ const studioGallery: GalleryImage[] = [
 
 const watercolorGallery: GalleryImage[] = [
   { src: wcFafWhite, petName: 'Faf', alt: 'Watercolor portrait of Faf, a boxer with a green collar, on white paper', labelInImage: true },
-  { src: wcFafBlack, petName: 'Faf', alt: 'Watercolor portrait of Faf, a boxer, on a deep black background', labelInImage: true },
-  { src: wcLily, petName: 'Lily', alt: 'Watercolor portrait of Lily, a cavalier spaniel, on white paper', labelInImage: true },
   { src: wcTilly, petName: 'Tilly', alt: 'Watercolor portrait of Tilly, a fluffy white cat with green eyes', labelInImage: true },
+  { src: wcLily, petName: 'Lily', alt: 'Watercolor portrait of Lily, a cavalier spaniel, on white paper', labelInImage: true },
+  { src: wcFafBlack, petName: 'Faf', alt: 'Watercolor portrait of Faf, a boxer, on a deep black background', labelInImage: true },
 ];
 
 export const PRODUCTS: readonly Product[] = [
@@ -95,17 +101,31 @@ export const PRODUCTS: readonly Product[] = [
     summary:
       'Your pet as a professional studio photograph on a crisp white or deep black background — without the studio session.',
     requiresBackground: true,
-    intro: [
-      'Receive a studio-style portrait of your pet, without the studio session.',
-      'We take your pet’s photos and turn them into a clean, high-resolution portrait on a crisp white or deep black background. Minimal, timeless, and ridiculously frameable. The kind of look you’d expect from a proper studio shoot, minus the booking, travel and “please sit still” negotiations.',
-    ],
-    steps: [
-      'Send 5 photos of your pet (phone pics are perfect).',
-      'We choose the strongest shots.',
-      'We refine the portrait for a polished studio finish.',
-      'We place them on a clean white or black background.',
-    ],
-    included: ['Edited and finished by a real person', 'Artwork proof in 1–2 days', 'Unlimited edits, free'],
+    copy: {
+      intro: [
+        'Receive a studio-style portrait of your pet, without the studio session.',
+        'We take your pet’s photos and turn them into a clean, high-resolution portrait on a <strong>crisp white or deep black background</strong>. Minimal, timeless, and ridiculously frameable. It’s the kind of look you’d expect from a proper studio shoot… minus the booking, travel, and “please sit still” negotiations.',
+      ],
+      howItWorks: {
+        lead: 'Send <strong>5 photos</strong> of your pet (phone pics are perfect). Our team will:',
+        steps: [
+          'choose the strongest shots',
+          'refine the portrait for a polished studio finish',
+          'place them on a clean <strong>white or black</strong> background',
+        ],
+        outro: 'You’ll receive a <strong>high-resolution digital file</strong> to download, then print or frame however you like.',
+      },
+      included: [
+        '<strong>Edited and finished by a real person</strong>',
+        '<strong>Artwork proof in 1–2 days</strong>',
+        '<strong>Unlimited edits, free</strong>',
+      ],
+      closing: [
+        'You’ll get a preview first, and we’ll tweak it until it feels perfect: we’ll look at the lighting, crop, background and overall feeling. And if you’re not happy with the final result, you’ll get a <strong>full refund</strong>.',
+        '<strong>Bonus:</strong> We’ll also include a free phone wallpaper version, so your pet can live rent-free on your lock screen.',
+        'Let’s get started!',
+      ],
+    },
     cover: studioGallery[0]!,
     gallery: studioGallery,
     priceTiers: tiersFor('studio-portrait'),
@@ -115,19 +135,29 @@ export const PRODUCTS: readonly Product[] = [
     title: 'Watercolor Portrait',
     shortTitle: 'Watercolor',
     summary:
-      'Your pet as a soft, hand-finished watercolor portrait on white paper or a deep black background, delivered as a high-resolution digital file.',
+      'Your pet’s best pics turned into a high-resolution watercolor-style portrait, designed and refined by a real person.',
     requiresBackground: true,
-    intro: [
-      'Receive a custom watercolor portrait of your pet, ready to print or frame.',
-      'We take your pet’s photos and turn them into a delicate watercolor painting: loose washes, fine detail where it counts, and all the character that makes them them. The eyes, the fluff, the attitude. All of it.',
-    ],
-    steps: [
-      'Send 5 photos of your pet (phone pics are perfect).',
-      'We choose the shots that capture them best.',
-      'We paint and refine the portrait by hand, digitally.',
-      'We finish it on soft white paper or a deep black background.',
-    ],
-    included: ['Designed by hand', 'Artwork proof in 1–2 days', 'Unlimited edits, free'],
+    copy: {
+      intro: [
+        '<strong>Same floof, now in watercolor.</strong><br />From photo to painting, it’s still 100% them.',
+        'Want something a little more artistic, without the mission of finding (and paying) a painter? That’s exactly what Sit Molly Sit! is for. We turn your pet’s best pics into a high-resolution watercolor-style portrait that looks like they’ve been posing in a studio all day… without the drama.',
+      ],
+      howItWorks: {
+        lead: 'Send <strong>5 photos</strong> of your pet (phone pics are perfect). Our team handles the rest.',
+        outro: 'You’ll receive a <strong>high-resolution digital file</strong> you can download and print however you like: frame it, gift it, make it the centrepiece. Your call.',
+      },
+      included: [
+        '<strong>Designed and refined by a real person</strong> (no generic auto-filter look)',
+        '<strong>Artwork proof in 1–2 days</strong>',
+        '<strong>Unlimited edits, free</strong>',
+      ],
+      closing: [
+        'We’ll send a preview before anything is final. Then we’ll tweak it until it feels exactly right. The expression, color, emotion, all of it. No limits. No weird revision rules.',
+        '<strong>Bonus:</strong> We’ll also include a free phone wallpaper version, so your pet can live rent-free on your lock screen.',
+        'And if you’re not happy with the final portrait? <strong>You get a full refund.</strong> Simple.',
+        'Let’s get started!',
+      ],
+    },
     cover: watercolorGallery[0]!,
     gallery: watercolorGallery,
     priceTiers: tiersFor('watercolor-portrait'),
