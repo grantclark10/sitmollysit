@@ -3,7 +3,7 @@
 
 export type Tier = 'US' | 'UK' | 'EU';
 export type PetCount = 1 | 2;
-export type ProductSlug = 'studio-portrait';
+export type ProductSlug = 'studio-portrait' | 'watercolor-portrait';
 
 export type PriceGrid<T> = Record<ProductSlug, Record<Tier, Record<PetCount, T>>>;
 
@@ -14,6 +14,11 @@ export type PriceGrid<T> = Record<ProductSlug, Record<Tier, Record<PetCount, T>>
 // ---------------------------------------------------------------------------
 export const PRICES = {
   'studio-portrait': {
+    US: { 1: 4900, 2: 6900 },
+    UK: { 1: 3900, 2: 5500 },
+    EU: { 1: 4500, 2: 6500 },
+  },
+  'watercolor-portrait': {
     US: { 1: 4900, 2: 6900 },
     UK: { 1: 3900, 2: 5500 },
     EU: { 1: 4500, 2: 6500 },
@@ -30,6 +35,11 @@ export const VARIANT_IDS = {
     US: { 1: 'TODO_LS_STUDIO_US_1PET', 2: 'TODO_LS_STUDIO_US_2PET' },
     UK: { 1: 'TODO_LS_STUDIO_UK_1PET', 2: 'TODO_LS_STUDIO_UK_2PET' },
     EU: { 1: 'TODO_LS_STUDIO_EU_1PET', 2: 'TODO_LS_STUDIO_EU_2PET' },
+  },
+  'watercolor-portrait': {
+    US: { 1: 'TODO_LS_WATERCOLOR_US_1PET', 2: 'TODO_LS_WATERCOLOR_US_2PET' },
+    UK: { 1: 'TODO_LS_WATERCOLOR_UK_1PET', 2: 'TODO_LS_WATERCOLOR_UK_2PET' },
+    EU: { 1: 'TODO_LS_WATERCOLOR_EU_1PET', 2: 'TODO_LS_WATERCOLOR_EU_2PET' },
   },
 } as const satisfies PriceGrid<string>;
 

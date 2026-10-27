@@ -18,7 +18,7 @@ npm run check     # astro check + tsc --noEmit
 
 - `src/assets/logo.svg`: generated placeholder wordmark (DM Sans 600, 0.18em tracking, macron over the O). Swap in the master SVG.
 - `src/assets/pets/*.jpg`: cropped from screenshots of the old Shopify site. Replace them with the original exports at the same filenames (the hero is `harvey.jpg`, the bespoke panel is `murphy.jpg`).
-- `src/pages/our-story.astro` uses `chase.jpg` (white background). Swap in the grey-background photo of Chase from the old Our Story page.
+- `src/assets/watercolor/*.webp` have the “Meet …” label painted in (`labelInImage`), so the site doesn’t overlay one.
 - Prices and Lemon Squeezy variant IDs: `PRICES` and `VARIANT_IDS` in `src/data/pricing.ts`.
 
 ## Currencies

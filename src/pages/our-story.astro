@@ -1,7 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import chase from '../assets/pets/chase.jpg';
+import chase from '../assets/pets/chase-story.webp';
 ---
 
 <Base
@@ -38,7 +38,7 @@ import chase from '../assets/pets/chase.jpg';
       <Picture
         class="story__photo"
         src={chase}
-        alt="Chase, a white bull terrier, sitting and smiling"
+        alt="Chase, a white bull terrier, sitting and smiling on a grey studio background"
         formats={['avif', 'webp']}
         widths={[400, 640, 900, 1200]}
         sizes="(min-width: 760px) 680px, 100vw"

@@ -34,7 +34,7 @@ const others = PRODUCTS.filter((p) => p.slug !== product.slug);
               fetchpriority={i === 0 ? 'high' : undefined}
               decoding="async"
             />
-            <MeetLabel name={image.petName} tone={image.labelTone} />
+            {!image.labelInImage && <MeetLabel name={image.petName} tone={image.labelTone} />}
           </figure>
         ))
       }

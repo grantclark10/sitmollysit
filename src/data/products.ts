@@ -6,6 +6,10 @@ import chase from '../assets/pets/chase.jpg';
 import noodle from '../assets/pets/noodle.jpg';
 import murphy from '../assets/pets/murphy.jpg';
 import faf from '../assets/pets/faf.jpg';
+import wcLily from '../assets/watercolor/lily.webp';
+import wcTilly from '../assets/watercolor/tilly.webp';
+import wcFafBlack from '../assets/watercolor/faf-black.webp';
+import wcFafWhite from '../assets/watercolor/faf-white.webp';
 
 import { PRICES, VARIANT_IDS, TIERS, type PetCount, type ProductSlug, type Tier } from './pricing';
 
@@ -36,6 +40,8 @@ export interface GalleryImage {
   alt: string;
   /** MeetLabel tone: 'dark' for images on a light background. */
   labelTone?: 'light' | 'dark';
+  /** The artwork already has the "Meet …" label painted in, so skip the overlay. */
+  labelInImage?: boolean;
 }
 
 export interface Product {
@@ -74,6 +80,13 @@ const studioGallery: GalleryImage[] = [
   { src: faf, petName: 'Faf', alt: 'Studio portrait of Faf, a boxer, sitting on a deep black background' },
 ];
 
+const watercolorGallery: GalleryImage[] = [
+  { src: wcFafWhite, petName: 'Faf', alt: 'Watercolor portrait of Faf, a boxer with a green collar, on white paper', labelInImage: true },
+  { src: wcFafBlack, petName: 'Faf', alt: 'Watercolor portrait of Faf, a boxer, on a deep black background', labelInImage: true },
+  { src: wcLily, petName: 'Lily', alt: 'Watercolor portrait of Lily, a cavalier spaniel, on white paper', labelInImage: true },
+  { src: wcTilly, petName: 'Tilly', alt: 'Watercolor portrait of Tilly, a fluffy white cat with green eyes', labelInImage: true },
+];
+
 export const PRODUCTS: readonly Product[] = [
   {
     slug: 'studio-portrait',
@@ -96,6 +109,28 @@ export const PRODUCTS: readonly Product[] = [
     cover: studioGallery[0]!,
     gallery: studioGallery,
     priceTiers: tiersFor('studio-portrait'),
+  },
+  {
+    slug: 'watercolor-portrait',
+    title: 'Watercolor Portrait',
+    shortTitle: 'Watercolor',
+    summary:
+      'Your pet as a soft, hand-finished watercolor portrait on white paper or a deep black background, delivered as a high-resolution digital file.',
+    requiresBackground: true,
+    intro: [
+      'Receive a custom watercolor portrait of your pet, ready to print or frame.',
+      'We take your pet’s photos and turn them into a delicate watercolor painting: loose washes, fine detail where it counts, and all the character that makes them them. The eyes, the fluff, the attitude. All of it.',
+    ],
+    steps: [
+      'Send 5 photos of your pet (phone pics are perfect).',
+      'We choose the shots that capture them best.',
+      'We paint and refine the portrait by hand, digitally.',
+      'We finish it on soft white paper or a deep black background.',
+    ],
+    included: ['Designed by hand', 'Artwork proof in 1–2 days', 'Unlimited edits, free'],
+    cover: watercolorGallery[0]!,
+    gallery: watercolorGallery,
+    priceTiers: tiersFor('watercolor-portrait'),
   },
 ];
 
